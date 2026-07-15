@@ -262,7 +262,7 @@ export default function Chapter3({ active }) {
 
       <div
         className="psplit"
-        style={{ gridTemplateColumns: "0.68fr 1.32fr", gap: "40px" }}
+        style={{ gridTemplateColumns: "0.72fr 1.28fr", gap: "40px" }}
       >
         {/* LEFT: texto */}
         <div className="pleft" ref={leftRef}>

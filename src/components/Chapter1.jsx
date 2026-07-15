@@ -287,7 +287,7 @@ export default function Chapter1({ active }) {
       <div
         className="psplit"
         style={{
-          gridTemplateColumns: "0.65fr 1.35fr",
+          gridTemplateColumns: "0.72fr 1.28fr",
           gap: "40px",
         }}
       >

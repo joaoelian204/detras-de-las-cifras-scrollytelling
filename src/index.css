@@ -82,6 +82,47 @@ body {
   transition: opacity 0.5s;
 }
 
+/* ZOOM SELECTOR IN NAV BAR */
+.nav-scale-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 4px 8px;
+  backdrop-filter: blur(8px);
+}
+.scale-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: rgba(244, 237, 226, 0.4);
+  margin-right: 4px;
+}
+.scale-btn {
+  background: transparent;
+  border: none;
+  color: rgba(244, 237, 226, 0.6);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.72rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.scale-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+.scale-btn.active {
+  color: #000;
+  background: var(--teal);
+  box-shadow: 0 0 10px var(--teal-glow);
+}
+
 /* DOTS */
 #dots {
   position: fixed;
@@ -138,11 +179,11 @@ body {
 
 /* Fixed cinematic viewport wrapper */
 #container {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   z-index: 1;
 }
@@ -152,8 +193,8 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
 }
 .panel-wrapper.active {
@@ -165,8 +206,8 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   opacity: 0; /* Hidden by default, animated in-place by GSAP */
   display: flex;
   align-items: center;

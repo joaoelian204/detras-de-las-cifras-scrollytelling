@@ -216,7 +216,7 @@ export default function Chapter2({ active }) {
       <div
         className="psplit"
         style={{
-          gridTemplateColumns: "0.65fr 1.35fr",
+          gridTemplateColumns: "0.72fr 1.28fr",
           gap: "40px",
         }}
       >
@@ -237,7 +237,7 @@ export default function Chapter2({ active }) {
               boxShadow: "0 0 8px var(--blue)",
             }}
           ></div>
-          <h2 className="ptitle" style={{ color: "var(--blue)" }}>
+          <h2 className="ptitle" style={{ color: "var(--blue)", fontSize: "clamp(2.4rem, 4.8vw, 5.5rem)", lineHeight: 0.9, marginBottom: "14px" }}>
             GRIETAS
             <br />
             SILENCIOSAS

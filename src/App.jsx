@@ -43,6 +43,16 @@ export default function App() {
   const panelsCount = 8;
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 899);
 
+  const [zoomFactor, setZoomFactor] = useState(() => {
+    const saved = localStorage.getItem('app-zoom-factor');
+    return saved ? parseFloat(saved) : 1.0;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('app-zoom-factor', zoomFactor);
+    ScrollTrigger.refresh();
+  }, [zoomFactor]);
+
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth <= 899);
     window.addEventListener('resize', onResize);
@@ -322,44 +332,6 @@ export default function App() {
 
   return (
     <>
-      <div id="prog"></div>
-
-      <nav id="nav">
-        <div id="nav-logo">DETRÁS DE LAS CIFRAS</div>
-        <div id="nav-ch" style={{ opacity: progress > 2 ? 1 : 0 }}>
-          ECUADOR 2007 &ndash; 2026
-        </div>
-      </nav>
-
-      <div id="dots">
-        {Array.from({ length: panelsCount }).map((_, idx) => (
-          <div
-            key={idx}
-            className={`dot ${activeIdx === idx ? 'active' : ''}`}
-            onClick={() => handleDotClick(idx)}
-            title={`Sección ${idx + 1}`}
-          />
-        ))}
-      </div>
-
-      <div id="sh" style={{ opacity: progress > 5 ? 0 : 1 }}>
-        SCROLL
-      </div>
-
-      <div id="bg-fixed" style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        background: getBackgroundStyle(progress),
-        zIndex: -1,
-        transition: 'background 1.2s ease',
-        pointerEvents: 'none'
-      }}>
-        <canvas id="bg-particles" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0.4 }}></canvas>
-      </div>
-
       {!isMobile && (
         <div 
           ref={scrollCanvasRef}
@@ -375,30 +347,109 @@ export default function App() {
         />
       )}
 
-      <div id="container" className={isMobile ? 'mobile' : ''}>
-        <div className={`panel-wrapper ${activeIdx === 0 ? 'active' : ''}`} style={{ zIndex: activeIdx === 0 ? 10 : 1 }}>
-          <IntroPanel active={activeIdx === 0} />
+      <div 
+        id="app-scale-wrapper" 
+        style={{
+          transform: isMobile ? 'none' : `scale(${zoomFactor})`,
+          transformOrigin: 'top left',
+          width: isMobile ? '100%' : `calc(100vw / ${zoomFactor})`,
+          height: isMobile ? 'auto' : `calc(100vh / ${zoomFactor})`,
+          position: isMobile ? 'relative' : 'fixed',
+          top: 0,
+          left: 0,
+          overflow: isMobile ? 'visible' : 'hidden',
+          zIndex: 1
+        }}
+      >
+        <div id="prog"></div>
+
+        <nav id="nav">
+          <div id="nav-logo">DETRÁS DE LAS CIFRAS</div>
+          <div id="nav-ch" style={{ opacity: progress > 2 ? 1 : 0 }}>
+            ECUADOR 2007 &ndash; 2026
+          </div>
+          {!isMobile && (
+            <div className="nav-scale-selector" style={{ pointerEvents: 'auto' }}>
+              <span className="scale-label">ZOOM:</span>
+              <button 
+                className={`scale-btn ${zoomFactor === 0.8 ? 'active' : ''}`} 
+                onClick={() => setZoomFactor(0.8)}
+                title="Compensar escala 125% de Windows (Diseño más compacto)"
+              >
+                80%
+              </button>
+              <button 
+                className={`scale-btn ${zoomFactor === 1.0 ? 'active' : ''}`} 
+                onClick={() => setZoomFactor(1.0)}
+                title="Escala original (100%)"
+              >
+                100%
+              </button>
+              <button 
+                className={`scale-btn ${zoomFactor === 1.25 ? 'active' : ''}`} 
+                onClick={() => setZoomFactor(1.25)}
+                title="Escala grande (125%)"
+              >
+                125%
+              </button>
+            </div>
+          )}
+        </nav>
+
+        <div id="dots">
+          {Array.from({ length: panelsCount }).map((_, idx) => (
+            <div
+              key={idx}
+              className={`dot ${activeIdx === idx ? 'active' : ''}`}
+              onClick={() => handleDotClick(idx)}
+              title={`Sección ${idx + 1}`}
+            />
+          ))}
         </div>
-        <div className={`panel-wrapper ${activeIdx === 1 ? 'active' : ''}`} style={{ zIndex: activeIdx === 1 ? 10 : 1 }}>
-          <Chapter1 active={activeIdx === 1} />
+
+        <div id="sh" style={{ opacity: progress > 5 ? 0 : 1 }}>
+          SCROLL
         </div>
-        <div className={`panel-wrapper ${activeIdx === 2 ? 'active' : ''}`} style={{ zIndex: activeIdx === 2 ? 10 : 1 }}>
-          <Chapter2 active={activeIdx === 2} />
+
+        <div id="bg-fixed" style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: getBackgroundStyle(progress),
+          zIndex: -1,
+          transition: 'background 1.2s ease',
+          pointerEvents: 'none'
+        }}>
+          <canvas id="bg-particles" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0.4 }}></canvas>
         </div>
-        <div className={`panel-wrapper ${activeIdx === 3 ? 'active' : ''}`} style={{ zIndex: activeIdx === 3 ? 10 : 1 }}>
-          <Chapter3 active={activeIdx === 3} />
-        </div>
-        <div className={`panel-wrapper ${activeIdx === 4 ? 'active' : ''}`} style={{ zIndex: activeIdx === 4 ? 10 : 1 }}>
-          <Chapter4 active={activeIdx === 4} />
-        </div>
-        <div className={`panel-wrapper ${activeIdx === 5 ? 'active' : ''}`} style={{ zIndex: activeIdx === 5 ? 10 : 1 }}>
-          <MapSection active={activeIdx === 5} />
-        </div>
-        <div className={`panel-wrapper ${activeIdx === 6 ? 'active' : ''}`} style={{ zIndex: activeIdx === 6 ? 10 : 1 }}>
-          <Simulator active={activeIdx === 6} />
-        </div>
-        <div className={`panel-wrapper ${activeIdx === 7 ? 'active' : ''}`} style={{ zIndex: activeIdx === 7 ? 10 : 1 }}>
-          <Credits active={activeIdx === 7} />
+
+        <div id="container" className={isMobile ? 'mobile' : ''}>
+          <div className={`panel-wrapper ${activeIdx === 0 ? 'active' : ''}`} style={{ zIndex: activeIdx === 0 ? 10 : 1 }}>
+            <IntroPanel active={activeIdx === 0} />
+          </div>
+          <div className={`panel-wrapper ${activeIdx === 1 ? 'active' : ''}`} style={{ zIndex: activeIdx === 1 ? 10 : 1 }}>
+            <Chapter1 active={activeIdx === 1} />
+          </div>
+          <div className={`panel-wrapper ${activeIdx === 2 ? 'active' : ''}`} style={{ zIndex: activeIdx === 2 ? 10 : 1 }}>
+            <Chapter2 active={activeIdx === 2} />
+          </div>
+          <div className={`panel-wrapper ${activeIdx === 3 ? 'active' : ''}`} style={{ zIndex: activeIdx === 3 ? 10 : 1 }}>
+            <Chapter3 active={activeIdx === 3} />
+          </div>
+          <div className={`panel-wrapper ${activeIdx === 4 ? 'active' : ''}`} style={{ zIndex: activeIdx === 4 ? 10 : 1 }}>
+            <Chapter4 active={activeIdx === 4} />
+          </div>
+          <div className={`panel-wrapper ${activeIdx === 5 ? 'active' : ''}`} style={{ zIndex: activeIdx === 5 ? 10 : 1 }}>
+            <MapSection active={activeIdx === 5} />
+          </div>
+          <div className={`panel-wrapper ${activeIdx === 6 ? 'active' : ''}`} style={{ zIndex: activeIdx === 6 ? 10 : 1 }}>
+            <Simulator active={activeIdx === 6} />
+          </div>
+          <div className={`panel-wrapper ${activeIdx === 7 ? 'active' : ''}`} style={{ zIndex: activeIdx === 7 ? 10 : 1 }}>
+            <Credits active={activeIdx === 7} />
+          </div>
         </div>
       </div>
     </>
