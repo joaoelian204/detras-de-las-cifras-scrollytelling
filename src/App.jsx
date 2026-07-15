@@ -127,7 +127,7 @@ export default function App() {
       orientation: 'horizontal',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.15,
+      wheelMultiplier: 1.5,
       touchMultiplier: 1.5,
       syncTouch: true
     });
@@ -146,7 +146,7 @@ export default function App() {
         trigger: scrollCanvas,
         start: 'left left',
         end: 'right right',
-        scrub: 1.8,
+        scrub: 0.6,
         horizontal: true,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
@@ -162,84 +162,92 @@ export default function App() {
     tl.to('#prog', {
       width: '100%',
       ease: 'none',
-      duration: 7
+      duration: 3.8
     }, 0);
 
-    tl.fromTo('#p0', { opacity: 1, filter: 'blur(0px)' }, { opacity: 0, filter: 'blur(15px)', duration: 1.0, ease: 'power2.inOut' }, 0.5);
+    // p0 — crossfade out
+    tl.fromTo('#p0', { opacity: 1, filter: 'blur(0px)' }, { opacity: 0, filter: 'blur(15px)', duration: 0.3, ease: 'power2.inOut' }, 0.2);
 
+    // p1 — fade-in (0.2→0.5), rest (0.5→0.75), fade-out (0.75→1.05)
     tl.fromTo('#p1', 
       { opacity: 0, filter: 'blur(20px)', scale: 0.97 }, 
       { 
-        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 1.0, ease: 'power2.inOut',
+        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 0.3, ease: 'power2.inOut',
         onComplete: () => window.dispatchEvent(new CustomEvent('panel-revealed', { detail: { id: 'p1' } }))
       }, 
-      0.5
+      0.2
     );
-    tl.to('#p1', { opacity: 0, filter: 'blur(20px)', scale: 0.97, duration: 1.0, ease: 'power2.inOut' }, 1.5);
-    tl.fromTo('#p1 .wm', { xPercent: 12 }, { xPercent: -18, ease: 'none' }, 0.5);
+    tl.to('#p1', { opacity: 0, filter: 'blur(20px)', scale: 0.97, duration: 0.3, ease: 'power2.inOut' }, 0.75);
+    tl.fromTo('#p1 .wm', { xPercent: 12 }, { xPercent: -18, ease: 'none' }, 0.2);
 
+    // p2 — fade-in (0.75→1.05), rest (1.05→1.3), fade-out (1.3→1.6)
     tl.fromTo('#p2', 
       { opacity: 0, filter: 'blur(20px)', scale: 0.97 }, 
       { 
-        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 1.0, ease: 'power2.inOut',
+        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 0.3, ease: 'power2.inOut',
         onComplete: () => window.dispatchEvent(new CustomEvent('panel-revealed', { detail: { id: 'p2' } }))
       }, 
-      1.5
+      0.75
     );
-    tl.to('#p2', { opacity: 0, filter: 'blur(20px)', scale: 0.97, duration: 1.0, ease: 'power2.inOut' }, 2.5);
-    tl.fromTo('#p2 .wm', { xPercent: 12 }, { xPercent: -18, ease: 'none' }, 1.5);
+    tl.to('#p2', { opacity: 0, filter: 'blur(20px)', scale: 0.97, duration: 0.3, ease: 'power2.inOut' }, 1.3);
+    tl.fromTo('#p2 .wm', { xPercent: 12 }, { xPercent: -18, ease: 'none' }, 0.75);
 
+    // p3 — fade-in (1.3→1.6), rest (1.6→1.85), fade-out (1.85→2.15)
     tl.fromTo('#p3', 
       { opacity: 0, filter: 'blur(20px)', scale: 0.97 }, 
       { 
-        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 1.0, ease: 'power2.inOut',
+        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 0.3, ease: 'power2.inOut',
         onComplete: () => window.dispatchEvent(new CustomEvent('panel-revealed', { detail: { id: 'p3' } }))
       }, 
-      2.5
+      1.3
     );
-    tl.to('#p3', { opacity: 0, filter: 'blur(20px)', scale: 0.97, duration: 1.0, ease: 'power2.inOut' }, 3.5);
-    tl.fromTo('#p3 .wm', { xPercent: 12 }, { xPercent: -18, ease: 'none' }, 2.5);
+    tl.to('#p3', { opacity: 0, filter: 'blur(20px)', scale: 0.97, duration: 0.3, ease: 'power2.inOut' }, 1.85);
+    tl.fromTo('#p3 .wm', { xPercent: 12 }, { xPercent: -18, ease: 'none' }, 1.3);
 
+    // p4 — fade-in (1.85→2.15), rest (2.15→2.4), fade-out (2.4→2.7)
     tl.fromTo('#p4', 
       { opacity: 0, filter: 'blur(20px)', scale: 0.97 }, 
       { 
-        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 1.0, ease: 'power2.inOut',
+        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 0.3, ease: 'power2.inOut',
         onComplete: () => window.dispatchEvent(new CustomEvent('panel-revealed', { detail: { id: 'p4' } }))
       }, 
-      3.5
+      1.85
     );
-    tl.to('#p4', { opacity: 0, filter: 'blur(20px)', scale: 0.97, duration: 1.0, ease: 'power2.inOut' }, 4.5);
-    tl.fromTo('#p4 .wm', { xPercent: 12 }, { xPercent: -18, ease: 'none' }, 3.5);
+    tl.to('#p4', { opacity: 0, filter: 'blur(20px)', scale: 0.97, duration: 0.3, ease: 'power2.inOut' }, 2.4);
+    tl.fromTo('#p4 .wm', { xPercent: 12 }, { xPercent: -18, ease: 'none' }, 1.85);
 
+    // p_map — fade-in (2.4→2.7), rest (2.7→2.95), fade-out (2.95→3.25)
     tl.fromTo('#p_map', 
       { opacity: 0, filter: 'blur(20px)', scale: 0.97 }, 
       { 
-        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 1.0, ease: 'power2.inOut',
+        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 0.3, ease: 'power2.inOut',
         onComplete: () => window.dispatchEvent(new CustomEvent('panel-revealed', { detail: { id: 'p_map' } }))
       }, 
-      4.5
+      2.4
     );
-    tl.to('#p_map', { opacity: 0, filter: 'blur(20px)', scale: 0.97, duration: 1.0, ease: 'power2.inOut' }, 5.5);
+    tl.to('#p_map', { opacity: 0, filter: 'blur(20px)', scale: 0.97, duration: 0.3, ease: 'power2.inOut' }, 2.95);
 
+    // p5 — fade-in (2.95→3.25), rest (3.25→3.5), fade-out (3.5→3.8)
     tl.fromTo('#p5', 
       { opacity: 0, filter: 'blur(20px)', scale: 0.97 }, 
       { 
-        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 1.0, ease: 'power2.inOut',
+        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 0.3, ease: 'power2.inOut',
         onComplete: () => window.dispatchEvent(new CustomEvent('panel-revealed', { detail: { id: 'p5' } }))
       }, 
-      5.5
+      2.95
     );
-    tl.to('#p5', { opacity: 0, filter: 'blur(20px)', scale: 0.97, duration: 1.0, ease: 'power2.inOut' }, 6.5);
+    tl.to('#p5', { opacity: 0, filter: 'blur(20px)', scale: 0.97, duration: 0.3, ease: 'power2.inOut' }, 3.5);
 
+    // p6 — fade-in (3.5→3.8), stays visible to end
     tl.fromTo('#p6', 
       { opacity: 0, filter: 'blur(20px)', scale: 0.97 }, 
       { 
-        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 1.0, ease: 'power2.inOut',
+        opacity: 1, filter: 'blur(0px)', scale: 1.0, duration: 0.3, ease: 'power2.inOut',
         onComplete: () => window.dispatchEvent(new CustomEvent('panel-revealed', { detail: { id: 'p6' } }))
       }, 
-      6.5
+      3.5
     );
-    tl.fromTo('#p6 .wm', { xPercent: 12 }, { xPercent: -18, ease: 'none' }, 6.5);
+    tl.fromTo('#p6 .wm', { xPercent: 12 }, { xPercent: -18, ease: 'none' }, 3.5);
 
     return () => {
       lenis.destroy();
@@ -252,38 +260,43 @@ export default function App() {
   useEffect(() => {
     if (!isMobile) return;
 
-    const onScroll = () => {
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const vh = window.innerHeight;
-      const totalHeight = panelsCount * vh;
-      const prog = Math.min(scrollY / totalHeight, 1);
-      setProgress(prog * 100);
-
-      const idx = Math.round(prog * (panelsCount - 1));
-      setActiveIdx(idx);
-    };
-
-    const fireReveals = () => {
-      const panels = ['p0','p1','p2','p3','p4','p_map','p5','p6'];
-      const vh = window.innerHeight;
-      panels.forEach((id, i) => {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top < vh * 0.75 && rect.bottom > 0) {
-            window.dispatchEvent(new CustomEvent('panel-revealed', { detail: { id } }));
+    const panels = ['p0','p1','p2','p3','p4','p_map','p5','p6'];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let best = null;
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && (!best || entry.intersectionRatio > best.intersectionRatio)) {
+            best = entry;
+          }
+        });
+        if (best) {
+          const idx = panels.indexOf(best.target.id);
+          if (idx !== -1) {
+            setActiveIdx(idx);
+            window.dispatchEvent(new CustomEvent('panel-revealed', { detail: { id: best.target.id } }));
           }
         }
-      });
-    };
+      },
+      { threshold: [0.3, 0.5, 0.7] }
+    );
 
+    panels.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    const onScroll = () => {
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const prog = totalHeight > 0 ? Math.min(scrollY / totalHeight, 1) : 0;
+      setProgress(prog * 100);
+    };
     window.addEventListener('scroll', onScroll);
-    window.addEventListener('scroll', fireReveals);
-    fireReveals();
+    onScroll();
 
     return () => {
+      observer.disconnect();
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('scroll', fireReveals);
     };
   }, [isMobile]);
 
@@ -363,29 +376,29 @@ export default function App() {
       )}
 
       <div id="container" className={isMobile ? 'mobile' : ''}>
-        <div className={`panel-wrapper ${activeIdx === 0 ? 'active' : ''}`} style={{ zIndex: activeIdx === 0 ? 10 : 1, display: !isMobile && !isNear(0) ? 'none' : undefined }}>
-          <IntroPanel active={isMobile ? true : activeIdx === 0} />
+        <div className={`panel-wrapper ${activeIdx === 0 ? 'active' : ''}`} style={{ zIndex: activeIdx === 0 ? 10 : 1 }}>
+          <IntroPanel active={activeIdx === 0} />
         </div>
-        <div className={`panel-wrapper ${activeIdx === 1 ? 'active' : ''}`} style={{ zIndex: activeIdx === 1 ? 10 : 1, display: !isMobile && !isNear(1) ? 'none' : undefined }}>
-          <Chapter1 active={isMobile ? true : activeIdx === 1} />
+        <div className={`panel-wrapper ${activeIdx === 1 ? 'active' : ''}`} style={{ zIndex: activeIdx === 1 ? 10 : 1 }}>
+          <Chapter1 active={activeIdx === 1} />
         </div>
-        <div className={`panel-wrapper ${activeIdx === 2 ? 'active' : ''}`} style={{ zIndex: activeIdx === 2 ? 10 : 1, display: !isMobile && !isNear(2) ? 'none' : undefined }}>
-          <Chapter2 active={isMobile ? true : activeIdx === 2} />
+        <div className={`panel-wrapper ${activeIdx === 2 ? 'active' : ''}`} style={{ zIndex: activeIdx === 2 ? 10 : 1 }}>
+          <Chapter2 active={activeIdx === 2} />
         </div>
-        <div className={`panel-wrapper ${activeIdx === 3 ? 'active' : ''}`} style={{ zIndex: activeIdx === 3 ? 10 : 1, display: !isMobile && !isNear(3) ? 'none' : undefined }}>
-          <Chapter3 active={isMobile ? true : activeIdx === 3} />
+        <div className={`panel-wrapper ${activeIdx === 3 ? 'active' : ''}`} style={{ zIndex: activeIdx === 3 ? 10 : 1 }}>
+          <Chapter3 active={activeIdx === 3} />
         </div>
-        <div className={`panel-wrapper ${activeIdx === 4 ? 'active' : ''}`} style={{ zIndex: activeIdx === 4 ? 10 : 1, display: !isMobile && !isNear(4) ? 'none' : undefined }}>
-          <Chapter4 active={isMobile ? true : activeIdx === 4} />
+        <div className={`panel-wrapper ${activeIdx === 4 ? 'active' : ''}`} style={{ zIndex: activeIdx === 4 ? 10 : 1 }}>
+          <Chapter4 active={activeIdx === 4} />
         </div>
-        <div className={`panel-wrapper ${activeIdx === 5 ? 'active' : ''}`} style={{ zIndex: activeIdx === 5 ? 10 : 1, display: !isMobile && !isNear(5) ? 'none' : undefined }}>
-          <MapSection active={isMobile ? true : activeIdx === 5} />
+        <div className={`panel-wrapper ${activeIdx === 5 ? 'active' : ''}`} style={{ zIndex: activeIdx === 5 ? 10 : 1 }}>
+          <MapSection active={activeIdx === 5} />
         </div>
-        <div className={`panel-wrapper ${activeIdx === 6 ? 'active' : ''}`} style={{ zIndex: activeIdx === 6 ? 10 : 1, display: !isMobile && !isNear(6) ? 'none' : undefined }}>
-          <Simulator active={isMobile ? true : activeIdx === 6} />
+        <div className={`panel-wrapper ${activeIdx === 6 ? 'active' : ''}`} style={{ zIndex: activeIdx === 6 ? 10 : 1 }}>
+          <Simulator active={activeIdx === 6} />
         </div>
-        <div className={`panel-wrapper ${activeIdx === 7 ? 'active' : ''}`} style={{ zIndex: activeIdx === 7 ? 10 : 1, display: !isMobile && !isNear(7) ? 'none' : undefined }}>
-          <Credits active={isMobile ? true : activeIdx === 7} />
+        <div className={`panel-wrapper ${activeIdx === 7 ? 'active' : ''}`} style={{ zIndex: activeIdx === 7 ? 10 : 1 }}>
+          <Credits active={activeIdx === 7} />
         </div>
       </div>
     </>

@@ -345,7 +345,7 @@ export default function Chapter1({ active }) {
         <div
           className="pright"
           style={{
-            alignItems: "stretch",
+            alignItems: "center",
             width: "100%",
             minWidth: 0,
             overflow: "hidden",

@@ -5,7 +5,13 @@ export function useResponsiveChartHeight(desktopHeight, mobileHeight = 240) {
 
   useEffect(() => {
     const updateHeight = () => {
-      setHeight(window.innerWidth <= 899 ? mobileHeight : desktopHeight);
+      if (window.innerWidth <= 899) {
+        setHeight(mobileHeight);
+        return;
+      }
+      const scaled = Math.round(window.innerHeight * 0.42);
+      const clamped = Math.min(Math.max(scaled, desktopHeight), desktopHeight * 1.8);
+      setHeight(clamped);
     };
     updateHeight();
     window.addEventListener('resize', updateHeight);
